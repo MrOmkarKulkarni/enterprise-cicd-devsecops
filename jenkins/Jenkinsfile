@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+
+  stages {
+
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/example/app.git'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        sh 'docker build -t app:${BUILD_NUMBER} .'
+      }
+    }
+
+    stage('Security Scan') {
+      steps {
+        sh 'trivy image app:${BUILD_NUMBER}'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh 'kubectl apply -f kubernetes/'
+      }
+    }
+  }
+}
