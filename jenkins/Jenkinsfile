@@ -28,3 +28,4 @@ pipeline {
     }
   }
 }
+# Added Trivy scanning stage
